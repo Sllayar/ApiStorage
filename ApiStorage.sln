@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiStorage", "ApiStorage\ApiStorage.csproj", "{BA540C1A-DB3E-4401-916B-923F35B962A9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B} = {DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevExtreme NuGet.config", "DevExtreme NuGet.config", "{1F208666-9B0B-4CFC-A2B8-265AED7A21A8}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewStorage", "ViewStorage\ViewStorage.csproj", "{D291B77B-D4CC-4AC4-A36F-446651EFF715}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B} = {DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonStorage", "CommonStorage\CommonStorage.csproj", "{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA540C1A-DB3E-4401-916B-923F35B962A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA540C1A-DB3E-4401-916B-923F35B962A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA540C1A-DB3E-4401-916B-923F35B962A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA540C1A-DB3E-4401-916B-923F35B962A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D291B77B-D4CC-4AC4-A36F-446651EFF715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D291B77B-D4CC-4AC4-A36F-446651EFF715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D291B77B-D4CC-4AC4-A36F-446651EFF715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D291B77B-D4CC-4AC4-A36F-446651EFF715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAE29200-53EF-4BA6-BF9C-8F35745CEF0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E9BFD48-09F9-4C95-BA72-3172EB260820}
+	EndGlobalSection
+EndGlobal

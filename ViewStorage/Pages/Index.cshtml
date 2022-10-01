@@ -1,0 +1,108 @@
+@page
+@using ViewStorage.Models
+@using ApiStorage.Models.Mongo
+@using ApiStorage.Models
+@using CommonStorage.Models.Mongo
+
+@{
+    ViewData["Title"] = "Просмотр результаов измерений";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="dx-field">
+
+    @(Html.DevExtreme().DataGrid<TestingTaskEntity>().ID("SettingsGrid")
+    .ShowBorders(true)
+    .DataSource(d => d.Mvc().Controller("TestingTask").LoadAction("testing").Key("Id"))
+    .Columns(columns => {
+
+        columns.AddFor(m => m.Id).GroupIndex(0);
+        columns.AddFor(m => m.TestName);
+        columns.AddFor(m => m.CreateDate);
+        columns.AddFor(m => m.UpdateDate);
+        columns.AddFor(m => m.SaveData);
+    })
+
+    .Paging(p => p.PageSize(10))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(false))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    //.Summary(s => s
+    //.TotalItems(totalItems => {
+    //    totalItems.AddFor(m => m.Id.Parameters).SummaryType(SummaryType.Count);
+    //})
+    //.GroupItems(groupItems => {
+    //    groupItems.Add().SummaryType(SummaryType.Count);
+    //}))
+    )
+</div>
+
+<div class="dx-field">
+
+    @(Html.DevExtreme().Button().Type(ButtonType.Success).OnClick("ReloadResultData").ID("ResButton").Text("Get result").Width(250))
+</div>
+
+
+<div class="dx-field">
+
+    @(Html.DevExtreme().DataGrid<AttenuatioPhaseShiftChannelData>().ID("ResultGrid")
+    .ShowBorders(true)
+    .DataSource(d => d.Mvc().Controller("AttenuatioPhaseShift").LoadAction("result").LoadParams(new { id = "631873659300a85029913454" }))
+    .Columns(columns => {
+        columns.AddFor(m => m.FullResult);
+    })
+    .Grouping(gr => {
+        gr.ExpandMode(GridGroupingExpandMode.ButtonClick);
+        gr.AutoExpandAll(false);
+    } )
+    .Paging(p => p.PageSize(10))
+    .FilterRow(f => f.Visible(true))
+    .HeaderFilter(f => f.Visible(true))
+    .GroupPanel(p => p.Visible(true))
+    .Grouping(g => g.AutoExpandAll(false))
+    .RemoteOperations(true)
+    )
+</div>
+@*@(Html.DevExtreme().DataGrid<SampleOrder>()
+        .ShowBorders(true)
+        .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("OrderID"))
+        .Columns(columns => {
+            columns.AddFor(m => m.OrderID);
+            columns.AddFor(m => m.OrderDate);
+            columns.AddFor(m => m.CustomerName);
+            columns.AddFor(m => m.ShipCountry);
+            columns.AddFor(m => m.ShipCity);
+        })
+        .Paging(p => p.PageSize(10))
+        .FilterRow(f => f.Visible(true))
+        .HeaderFilter(f => f.Visible(true))
+        .GroupPanel(p => p.Visible(true))
+        .Grouping(g => g.AutoExpandAll(false))
+        .RemoteOperations(true)
+        .Summary(s => s
+            .TotalItems(totalItems => {
+                totalItems.AddFor(m => m.ShipCity).SummaryType(SummaryType.Count);
+            })
+            .GroupItems(groupItems => {
+                groupItems.Add().SummaryType(SummaryType.Count);
+            })
+        )
+    )*@
+
+
+<script>
+    var SettingsGrid, ResultGrid;
+
+    $(function () {
+        SettingsGrid = $("#SettingsGrid").ResultGrid("instance");
+        ResultGrid = $("#ResultGrid").ResultGrid("instance");
+    })
+
+    function ReloadResultData() {
+        console.log("ReloadResultData");
+
+        ResultGrid.refresh();
+    }
+</script>
