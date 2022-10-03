@@ -63,7 +63,7 @@ namespace ApiStorage.Controllers
         // TODO ADD/UPDATE METHODS
         // [HttpPost("load/{*url}")]
         [HttpPost("{key}", Name = "load/new")]
-        public async Task<string> UniversalUpload(
+        public async Task<TestingTaskEntity> UniversalUpload(
             [FromQuery] string key, [FromBody] string baseRequeste)
         {
             var date = DateTime.Now;
@@ -71,10 +71,12 @@ namespace ApiStorage.Controllers
             var newTask = new TestingTaskEntity()
             {
                 Id = Guid.NewGuid(),
+                GroupId = Guid.NewGuid(),
                 CreateDate = date,
                 UpdateDate = date,
-                TestComment = "Test",
-                TestName = "Test"
+                Comment = "Test",
+                TestName = "Test",
+                Status = Status.GetOn
             };
 
             // TODO Save requst
@@ -88,7 +90,7 @@ namespace ApiStorage.Controllers
                 TaskId = newTask.Id
             });
 
-            return newTask.Id.ToString();
+            return newTask;
         }
 
         // TODO в тесты
@@ -100,11 +102,12 @@ namespace ApiStorage.Controllers
             var newTask = new TestingTaskEntity()
             {
                 Id = Guid.NewGuid(),
+                GroupId = Guid.NewGuid(),
                 CreateDate = date,
                 UpdateDate = date,
-                TestComment = "Test",
+                Comment = "Test",
                 TestName = "Test",
-                SaveData = new List<TestingTaskEntity.LoadData>()
+                Status = Status.GetOn
             };
 
             await _testingTaskService.CreateAsync(newTask);

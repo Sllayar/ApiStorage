@@ -26,6 +26,11 @@ namespace ApiStorage.Mongo
         {        }
 
 
+        //public IMongoQueryable<AttenuatioPhaseShiftEntity> GetQuery1()
+        //{
+        //    //_collection.a
+        //}
+
         public async Task<List<AttenuatioPhaseShiftEntity>> FindGroupAsync(Guid groupId) =>
             await _collection.AsQueryable().Where(x => x.TestGroupId == groupId).ToListAsync();
 

@@ -16,11 +16,27 @@
     .DataSource(d => d.Mvc().Controller("TestingTask").LoadAction("testing").Key("Id"))
     .Columns(columns => {
 
-        columns.AddFor(m => m.Id).GroupIndex(0);
-        columns.AddFor(m => m.TestName);
-        columns.AddFor(m => m.CreateDate);
-        columns.AddFor(m => m.UpdateDate);
-        columns.AddFor(m => m.SaveData);
+    columns.AddFor(m => m.Id);
+    columns.AddFor(m => m.GroupId).GroupIndex(0);
+    columns.AddFor(m => m.TestName);
+    columns.AddFor(m => m.CreateDate);
+    columns.AddFor(m => m.UpdateDate);
+    columns.AddFor(m => m.Status).Width(80)
+    .HeaderFilter(filter => filter.DataSource(new[] {
+            new { text = "Получен", value = 0},
+            new { text = "В обработке", value = 1},
+            new { text = "Загружен", value = 2},
+            new { text = "Ошибка", value = 3},
+    }))
+        .CalculateCellValue(@<Text>
+                            function(data){
+                                if(data.Status == 0) return "Получен";
+                                if(data.Status == 1) return "В обработке";
+                                if(data.Status == 2) return "Загружен";
+                                if(data.Status == 3) return "Ошибка";
+                                else return "23";
+                            }
+                            </text>);
     })
 
     .Paging(p => p.PageSize(10))
@@ -29,13 +45,6 @@
     .GroupPanel(p => p.Visible(false))
     .Grouping(g => g.AutoExpandAll(false))
     .RemoteOperations(true)
-    //.Summary(s => s
-    //.TotalItems(totalItems => {
-    //    totalItems.AddFor(m => m.Id.Parameters).SummaryType(SummaryType.Count);
-    //})
-    //.GroupItems(groupItems => {
-    //    groupItems.Add().SummaryType(SummaryType.Count);
-    //}))
     )
 </div>
 

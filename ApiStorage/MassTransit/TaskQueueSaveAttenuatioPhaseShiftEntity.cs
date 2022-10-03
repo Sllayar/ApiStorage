@@ -41,13 +41,8 @@ namespace ApiStorage.MassTransit
             {
                 await _attenuatioPhaseShiftServices.CreateAsync(context.Message);
 
-                taskEntity.SaveData.Add(
-                    new CommonStorage.Models.Mongo.TestingTaskEntity.LoadData()
-                    {
-                        Name = nameof(AttenuatioPhaseShiftEntity),
-                        Reference = context.Message.Id,
-                        Status = CommonStorage.Models.Mongo.TestingTaskEntity.Status.Successful
-                    });
+                taskEntity.Status = CommonStorage.Models.Mongo.Status.Successful;
+                taskEntity.Reference = context.Message.Id;
 
                 await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
             }
@@ -57,12 +52,7 @@ namespace ApiStorage.MassTransit
 
                 _logger.LogError(ex.Message);
 
-                taskEntity.SaveData.Add(
-                    new CommonStorage.Models.Mongo.TestingTaskEntity.LoadData()
-                    {
-                        Name = nameof(AttenuatioPhaseShiftEntity),
-                        Status = CommonStorage.Models.Mongo.TestingTaskEntity.Status.Mistake
-                    });
+                taskEntity.Status = CommonStorage.Models.Mongo.Status.Mistake;
 
                 await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
 

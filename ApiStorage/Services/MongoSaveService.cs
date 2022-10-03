@@ -39,14 +39,6 @@ namespace ApiStorage.MassTransit
             {
                 await mongoBase.CreateAsync(testData);
 
-                taskEntity.SaveData.Add(
-                    new TestingTaskEntity.LoadData()
-                    {
-                        Name = nameof(AttenuatioPhaseShiftEntity),
-                        Reference = context.Message.Id,
-                        Status = TestingTaskEntity.Status.Successful
-                    });
-
                 await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
             }
             catch (Exception ex)
@@ -54,13 +46,6 @@ namespace ApiStorage.MassTransit
                 _logger.LogError("Ошибка " + context.Message.TestName + " " + context.Message.TestGroupId);
 
                 _logger.LogError(ex.Message);
-
-                taskEntity.SaveData.Add(
-                    new TestingTaskEntity.LoadData()
-                    {
-                        Name = nameof(AttenuatioPhaseShiftEntity),
-                        Status = TestingTaskEntity.Status.Mistake
-                    });
 
                 await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
 

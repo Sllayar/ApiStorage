@@ -20,19 +20,9 @@ namespace ApiStorage.MassTransit
 {
     public class TaskQueueDataTransmission : IConsumer<BusNonTypedData>
     {
-        //private class Deserializer <T>
-        //{
-        //    public T Deserialize(string obj) => JsonConvert.DeserializeObject <T> (obj);
-        //};
-
-        //public Dictionary<string, Type> KeyTypesPairs = new Dictionary<string, Type>()
-        //{
-        //    { "AttenuatioPhaseShift", typeof(AttenuatioPhaseShiftEntity) }
-        //};
-
+        private readonly TestingTaskService _testingTaskService;
         private readonly ILogger<TaskQueueDataTransmission> _logger;
         private readonly IBus _bus;
-        private readonly TestingTaskService _testingTaskService;
 
         public TaskQueueDataTransmission(
             IBus bus, ILogger<TaskQueueDataTransmission> logger, TestingTaskService testingTaskService)
@@ -46,6 +36,10 @@ namespace ApiStorage.MassTransit
         {
             _logger.LogInformation("начало TaskQueueDataTransmission");
 
+            var taskEntity = await _testingTaskService.GetAsync(context.Message.TaskId);
+            taskEntity.Status = CommonStorage.Models.Mongo.Status.Processed;
+            taskEntity.Type = context.Message.Key;
+
             if (context.Message.Key == "AttenuatioPhaseShift")
             {
                 await _bus.Publish(
@@ -53,33 +47,14 @@ namespace ApiStorage.MassTransit
             }
             else
             {
-                // TODO
                 _logger.LogError("TaskQueueDataTransmission not faund Type " + context.Message.Key);
 
-                var taskEntity = await _testingTaskService.GetAsync(context.Message.TaskId);
-
-                taskEntity.SaveData.Add(
-                    new CommonStorage.Models.Mongo.TestingTaskEntity.LoadData()
-                    {
-                        Name = context.Message.Key,
-                        Reference = context.Message.TaskId,
-                        Status = CommonStorage.Models.Mongo.TestingTaskEntity.Status.Mistake
-                    });
-
-                await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
+                taskEntity.Status = CommonStorage.Models.Mongo.Status.Mistake;
             }
 
-            _logger.LogInformation("Финиш DataTransmission");
+            await _testingTaskService.UpdateAsync(taskEntity.Id, taskEntity);
 
-            //TODO
-            //Type dataType;
-            //if (KeyTypesPairs.TryGetValue(context.Message.Key, out dataType))
-            //{
-            //var type = typeof(Deserializer<>).MakeGenericType(dataType.GetType());
-            //dynamic deserializer = Activator.CreateInstance(type);
-            //var res = deserializer.Deserialize(context.Message.Data);
-            //_bus.Publish(res);
-            //}
+            _logger.LogInformation("Финиш DataTransmission");
         }
     }
 }
